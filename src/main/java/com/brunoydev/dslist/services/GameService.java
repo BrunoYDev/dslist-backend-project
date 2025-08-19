@@ -3,6 +3,7 @@ package com.brunoydev.dslist.services;
 import com.brunoydev.dslist.dto.GameDTO;
 import com.brunoydev.dslist.dto.GameMinDTO;
 import com.brunoydev.dslist.entities.Game;
+import com.brunoydev.dslist.projections.GameMinProjection;
 import com.brunoydev.dslist.repositories.GameRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -30,5 +31,13 @@ public class GameService {
         Game result = gameRepository.findById(gameId).get();
 
         return new GameDTO(result);
+    }
+
+    @Transactional(readOnly = true)
+    public List<GameMinDTO> findByList(Long listId){
+        List<GameMinProjection> result = gameRepository.searchByList(listId);
+
+        // Can override lambda expression with GameMinDTO::new
+        return result.stream().map(game -> new GameMinDTO(game)).toList();
     }
 }
