@@ -1,7 +1,7 @@
 # --- Stage 1: Build ---
-# Use a full JDK image to build the project.
-# The 'AS builder' tag allows us to refer to this stage later.
-FROM eclipse-temurin:21-jdk-jammy AS builder
+# Use an official Maven image with the correct JDK version for the build.
+# This ensures the 'mvn' command is available.
+FROM maven:3.9-eclipse-temurin-21 AS builder
 
 # Set the working directory inside the container.
 WORKDIR /app
